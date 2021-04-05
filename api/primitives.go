@@ -16,3 +16,12 @@ type NonAggregateOrderBookEntry struct {
 	Id              string `json:"id"`
 	PositionAtPrice int64  `json:"positionAtPrice"`
 }
+
+type Currency struct {
+	Symbol                  string `json:"symbol"`
+	IsActive                bool   `json:"isActive"`
+	ShortName               string `json:"shortName"`
+	LongName                string `json:"longName"`
+	DecimalPlaces           string `json:"decimalPlaces"`
+	WithdrawalDecimalPlaces string `json:"withdrawalDecimalPlaces"`
+}

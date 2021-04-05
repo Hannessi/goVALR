@@ -27,3 +27,11 @@ func (h *HTTPRequester) GetPublicOrderBookNonAggregate(request GetPublicOrderBoo
 	}
 	return response, nil
 }
+
+func (h *HTTPRequester) GetCurrencies(request GetCurrenciesRequest) (*GetCurrenciesResponse, error) {
+	currencies := &[]Currency{}
+	if err := HttpRequestWrapper(GET, h.urlManager.GetCurrencies(), nil, currencies, ""); err != nil {
+		return nil, err
+	}
+	return &GetCurrenciesResponse{Currencies: *currencies}, nil
+}

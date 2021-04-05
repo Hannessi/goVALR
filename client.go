@@ -69,3 +69,21 @@ func (c *Client) GetPublicOrderBookNonAggregate(request GetPublicOrderBookNonAgg
 	}, nil
 
 }
+
+type GetCurrenciesRequest struct {
+
+}
+
+type GetCurrenciesResponse struct {
+	Currencies []goVALRapi.Currency
+}
+
+func (c *Client) GetCurrencies(request GetCurrenciesRequest) (*GetCurrenciesResponse, error) {
+	response, err := c.requester.GetCurrencies(goVALRapi.GetCurrenciesRequest{})
+	if err != nil {
+		return nil, err
+	}
+	return &GetCurrenciesResponse{
+		Currencies: response.Currencies,
+	}, nil
+}

@@ -30,4 +30,12 @@ func main() {
 	fmt.Println("GetPublicOrderBookNonAggregate")
 	fmt.Println("Response: ", getPublicOrderBookNonAggregateResponse)
 
+	getCurrenciesResponse, err := client.GetCurrencies(goVALR.GetCurrenciesRequest{})
+	if err != nil{
+		panic("Could not get currencies: "+err.Error())
+	}
+
+	fmt.Println("GetCurrencies")
+	fmt.Println("Response: ", getCurrenciesResponse)
+
 }

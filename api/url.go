@@ -19,3 +19,7 @@ func (u *urlManager) GetPublicOrderBookNonAggregate(currencyPair string) string 
 	// todo validate currency pair
 	return u.baseUrl + "public/" + currencyPair + "/orderbook/full"
 }
+
+func (u *urlManager) GetCurrencies() string {
+	return u.baseUrl + "public/currencies"
+}
