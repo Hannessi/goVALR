@@ -17,6 +17,7 @@ type Requester interface {
 	GetMarketSummaryForCurrencyPair(GetMarketSummaryForCurrencyPairRequest) (*GetMarketSummaryForCurrencyPairResponse, error)
 	GetTradeHistory(GetTradeHistoryRequest) (*GetTradeHistoryResponse, error)
 	GetServerTime(GetServerTimeRequest) (*GetServerTimeResponse, error)
+	GetValrStatus(GetValrStatusRequest) (*GetValrStatusResponse, error)
 }
 
 type GetOrderBookRequest struct {
@@ -98,4 +99,12 @@ type GetServerTimeRequest struct{}
 type GetServerTimeResponse struct {
 	EpochTime int64  `json:"epochTime"`
 	Time      string `json:"time"`
+}
+
+type GetValrStatusRequest struct {
+
+}
+
+type GetValrStatusResponse struct {
+	Status string
 }

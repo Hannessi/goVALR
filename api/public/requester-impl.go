@@ -94,13 +94,14 @@ func (h *HTTPRequester) GetServerTime(request GetServerTimeRequest) (*GetServerT
 	return getServerTimeResponse, nil
 }
 
-//
-//func (h *HTTPRequester) GetOrderTypesForCurrencyPair(request GetOrderTypesForCurrencyPairRequest) (*GetOrderTypesForCurrencyPairResponse, error) {
-//	orderTypes := &[]string{}
-//	if err := HttpRequestWrapper(GET, h.urlManager.GetOrderTypesForCurrencyPair(request.CurrencyPair), nil, orderTypes, ""); err != nil {
-//		return nil, err
-//	}
-//	return &GetOrderTypesForCurrencyPairResponse{OrderTypes: *orderTypes}, nil
-//}
-//
-//
+func (h *HTTPRequester) GetValrStatus(request GetValrStatusRequest) (*GetValrStatusResponse, error) {
+	status := struct {
+		Status string `json:"status"`
+	}{}
+	if err := goVALRapi.HttpRequestWrapper(goVALRapi.GET, h.urlManager.GetValrStatus(), nil, &status, ""); err != nil {
+		return nil, err
+	}
+	return &GetValrStatusResponse{Status: status.Status}, nil
+}
+
+

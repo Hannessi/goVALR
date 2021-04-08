@@ -206,3 +206,37 @@ func (c *Client) GetPublicTradeHistory(request GetPublicTradeHistoryRequest) (*G
 		Trades: response.Trades,
 	}, nil
 }
+
+type GetServerTimeRequest struct{}
+
+type GetServerTimeResponse struct {
+	EpochTime int64
+	Time      string // todo make time.Time{}
+}
+
+func (c *Client) GetServerTime(request GetServerTimeRequest) (*GetServerTimeResponse, error) {
+	response, err := c.publicApiRequester.GetServerTime(valrPublicApi.GetServerTimeRequest{})
+	if err != nil {
+		return nil, err
+	}
+	return &GetServerTimeResponse{
+		EpochTime: response.EpochTime,
+		Time:      response.Time,
+	}, nil
+}
+
+type GetValrStatusRequest struct{}
+
+type GetValrStatusResponse struct {
+	Status string
+}
+
+func (c *Client) GetValrStatus(request GetValrStatusRequest) (*GetValrStatusResponse, error) {
+	response, err := c.publicApiRequester.GetValrStatus(valrPublicApi.GetValrStatusRequest{})
+	if err != nil {
+		return nil, err
+	}
+	return &GetValrStatusResponse{
+		Status: response.Status,
+	}, nil
+}

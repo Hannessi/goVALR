@@ -106,4 +106,22 @@ func main() {
 	fmt.Println("Response: ", getPublicTradeHistoryResponse)
 	time.Sleep(sleep_seconds * time.Second)
 
+	getServerTimeResponse, err := client.GetServerTime(goVALR.GetServerTimeRequest{})
+	if err != nil{
+		panic("Could not get server time: "+err.Error())
+	}
+
+	fmt.Println("GetServerTimeResponse")
+	fmt.Println("Response: ", getServerTimeResponse)
+	time.Sleep(sleep_seconds * time.Second)
+
+	getValrStatusResponse, err := client.GetValrStatus(goVALR.GetValrStatusRequest{})
+	if err != nil{
+		panic("Could not get valr status: "+err.Error())
+	}
+
+	fmt.Println("GetValrStatusResponse")
+	fmt.Println("Response: ", getValrStatusResponse)
+	time.Sleep(sleep_seconds * time.Second)
+
 }
