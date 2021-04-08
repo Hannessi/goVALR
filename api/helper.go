@@ -53,9 +53,8 @@ func HttpRequestWrapper(method method, url string, requestBody interface{}, resp
 		return errors.New("could not read body of response: " + err.Error())
 	}
 
+	//fmt.Println("Response: ",string(responseBody))
 	err = json.Unmarshal(responseBody, response)
-
-	//fmt.Println("Response: ",httpResponse.Body)
 	if err != nil {
 		return errors.New("could not unmarshal the body of the response: " + err.Error())
 	}

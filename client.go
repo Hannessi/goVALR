@@ -85,3 +85,92 @@ func (c *Client) GetCurrencies(request GetCurrenciesRequest) (*GetCurrenciesResp
 		Currencies: response.Currencies,
 	}, nil
 }
+
+type GetCurrencyPairsRequest struct{}
+
+type GetCurrencyPairsResponse struct {
+	CurrencyPairs []goVALRapi.CurrencyPair
+}
+
+func (c *Client) GetCurrencyPairs(request GetCurrencyPairsRequest) (*GetCurrencyPairsResponse, error) {
+	response, err := c.requester.GetCurrencyPairs(goVALRapi.GetCurrencyPairsRequest{})
+	if err != nil {
+		return nil, err
+	}
+	return &GetCurrencyPairsResponse{
+		CurrencyPairs: response.CurrencyPairs,
+	}, nil
+}
+
+type GetOrderTypesRequest struct{}
+
+type GetOrderTypesResponse struct {
+	OrderTypes []goVALRapi.OrderTypePerCurrencyPair
+}
+
+func (c *Client) GetOrderTypes(request GetOrderTypesRequest) (*GetOrderTypesResponse, error) {
+	response, err := c.requester.GetOrderTypes(goVALRapi.GetOrderTypesRequest{})
+	if err != nil {
+		return nil, err
+	}
+	return &GetOrderTypesResponse{
+		OrderTypes: response.OrderTypes,
+	}, nil
+}
+
+type GetOrderTypesForCurrencyPairRequest struct {
+	CurrencyPair string
+}
+
+type GetOrderTypesForCurrencyPairResponse struct {
+	OrderTypes []string
+}
+
+func (c *Client) GetOrderTypesForCurrencyPair(request GetOrderTypesForCurrencyPairRequest) (*GetOrderTypesForCurrencyPairResponse, error) {
+	response, err := c.requester.GetOrderTypesForCurrencyPair(goVALRapi.GetOrderTypesForCurrencyPairRequest{
+		CurrencyPair: request.CurrencyPair,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return &GetOrderTypesForCurrencyPairResponse{
+		OrderTypes: response.OrderTypes,
+	}, nil
+}
+
+type GetMarketSummaryRequest struct{}
+
+type GetMarketSummaryResponse struct {
+	// todo segregate goVALR types from VALR api types
+	MarketSummaries []goVALRapi.MarketSummary
+}
+
+func (c *Client) GetMarketSummary(request GetMarketSummaryRequest) (*GetMarketSummaryResponse, error) {
+	response, err := c.requester.GetMarketSummary(goVALRapi.GetMarketSummaryRequest{})
+	if err != nil {
+		return nil, err
+	}
+	return &GetMarketSummaryResponse{
+		MarketSummaries: response.MarketSummaries,
+	}, nil
+}
+
+type GetMarketSummaryForCurrencyPairRequest struct {
+	CurrencyPair string
+}
+
+type GetMarketSummaryForCurrencyPairResponse struct {
+	MarketSummary goVALRapi.MarketSummary
+}
+
+func (c *Client) GetMarketSummaryForCurrencyPair(request GetMarketSummaryForCurrencyPairRequest) (*GetMarketSummaryForCurrencyPairResponse, error) {
+	response, err := c.requester.GetMarketSummaryForCurrencyPair(goVALRapi.GetMarketSummaryForCurrencyPairRequest{
+		CurrencyPair: request.CurrencyPair,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return &GetMarketSummaryForCurrencyPairResponse{
+		MarketSummary: response.MarketSummary,
+	}, nil
+}
