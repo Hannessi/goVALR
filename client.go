@@ -2,18 +2,20 @@ package goVALR
 
 import (
 	goVALRapi "github.com/hannessi/goVALR/api"
+	valrPublicApi "github.com/hannessi/goVALR/api/public"
+	"time"
 )
 
 func NewClient() *Client {
 	return &Client{
-		requester: goVALRapi.NewHTTPRequester(),
+		publicApiRequester: valrPublicApi.NewHTTPRequester(),
 	}
 }
 
 type Client struct {
-	apiKey    string
-	apiSecret string
-	requester goVALRapi.Requester
+	apiKey             string
+	apiSecret          string
+	publicApiRequester valrPublicApi.Requester
 }
 
 // Setting authentication
@@ -33,7 +35,7 @@ type GetPublicOrderBookResponse struct {
 }
 
 func (c *Client) GetPublicOrderBook(request GetPublicOrderBookRequest) (*GetPublicOrderBookResponse, error) {
-	response, err := c.requester.GetPublicOrderBook(goVALRapi.GetPublicOrderBookRequest{
+	response, err := c.publicApiRequester.GetOrderBook(valrPublicApi.GetOrderBookRequest{
 		CurrencyPair: request.CurrencyPair,
 	})
 	if err != nil {
@@ -56,7 +58,7 @@ type GetPublicOrderBookNonAggregateResponse struct {
 }
 
 func (c *Client) GetPublicOrderBookNonAggregate(request GetPublicOrderBookNonAggregateRequest) (*GetPublicOrderBookNonAggregateResponse, error) {
-	response, err := c.requester.GetPublicOrderBookNonAggregate(goVALRapi.GetPublicOrderBookNonAggregateRequest{
+	response, err := c.publicApiRequester.GetOrderBookNonAggregate(valrPublicApi.GetOrderBookNonAggregateRequest{
 		CurrencyPair: request.CurrencyPair,
 	})
 	if err != nil {
@@ -77,7 +79,7 @@ type GetCurrenciesResponse struct {
 }
 
 func (c *Client) GetCurrencies(request GetCurrenciesRequest) (*GetCurrenciesResponse, error) {
-	response, err := c.requester.GetCurrencies(goVALRapi.GetCurrenciesRequest{})
+	response, err := c.publicApiRequester.GetCurrencies(valrPublicApi.GetCurrenciesRequest{})
 	if err != nil {
 		return nil, err
 	}
@@ -93,7 +95,7 @@ type GetCurrencyPairsResponse struct {
 }
 
 func (c *Client) GetCurrencyPairs(request GetCurrencyPairsRequest) (*GetCurrencyPairsResponse, error) {
-	response, err := c.requester.GetCurrencyPairs(goVALRapi.GetCurrencyPairsRequest{})
+	response, err := c.publicApiRequester.GetCurrencyPairs(valrPublicApi.GetCurrencyPairsRequest{})
 	if err != nil {
 		return nil, err
 	}
@@ -109,7 +111,7 @@ type GetOrderTypesResponse struct {
 }
 
 func (c *Client) GetOrderTypes(request GetOrderTypesRequest) (*GetOrderTypesResponse, error) {
-	response, err := c.requester.GetOrderTypes(goVALRapi.GetOrderTypesRequest{})
+	response, err := c.publicApiRequester.GetOrderTypes(valrPublicApi.GetOrderTypesRequest{})
 	if err != nil {
 		return nil, err
 	}
@@ -127,7 +129,7 @@ type GetOrderTypesForCurrencyPairResponse struct {
 }
 
 func (c *Client) GetOrderTypesForCurrencyPair(request GetOrderTypesForCurrencyPairRequest) (*GetOrderTypesForCurrencyPairResponse, error) {
-	response, err := c.requester.GetOrderTypesForCurrencyPair(goVALRapi.GetOrderTypesForCurrencyPairRequest{
+	response, err := c.publicApiRequester.GetOrderTypesForCurrencyPair(valrPublicApi.GetOrderTypesForCurrencyPairRequest{
 		CurrencyPair: request.CurrencyPair,
 	})
 	if err != nil {
@@ -146,7 +148,7 @@ type GetMarketSummaryResponse struct {
 }
 
 func (c *Client) GetMarketSummary(request GetMarketSummaryRequest) (*GetMarketSummaryResponse, error) {
-	response, err := c.requester.GetMarketSummary(goVALRapi.GetMarketSummaryRequest{})
+	response, err := c.publicApiRequester.GetMarketSummary(valrPublicApi.GetMarketSummaryRequest{})
 	if err != nil {
 		return nil, err
 	}
@@ -164,7 +166,7 @@ type GetMarketSummaryForCurrencyPairResponse struct {
 }
 
 func (c *Client) GetMarketSummaryForCurrencyPair(request GetMarketSummaryForCurrencyPairRequest) (*GetMarketSummaryForCurrencyPairResponse, error) {
-	response, err := c.requester.GetMarketSummaryForCurrencyPair(goVALRapi.GetMarketSummaryForCurrencyPairRequest{
+	response, err := c.publicApiRequester.GetMarketSummaryForCurrencyPair(valrPublicApi.GetMarketSummaryForCurrencyPairRequest{
 		CurrencyPair: request.CurrencyPair,
 	})
 	if err != nil {
@@ -172,5 +174,35 @@ func (c *Client) GetMarketSummaryForCurrencyPair(request GetMarketSummaryForCurr
 	}
 	return &GetMarketSummaryForCurrencyPairResponse{
 		MarketSummary: response.MarketSummary,
+	}, nil
+}
+
+type GetPublicTradeHistoryRequest struct {
+	CurrencyPair string
+	Skip         int
+	Limit        int
+	StartTime    time.Time
+	EndTime      time.Time
+	BeforeId     string
+}
+
+type GetPublicTradeHistoryResponse struct {
+	Trades []goVALRapi.Trade
+}
+
+func (c *Client) GetPublicTradeHistory(request GetPublicTradeHistoryRequest) (*GetPublicTradeHistoryResponse, error) {
+	response, err := c.publicApiRequester.GetTradeHistory(valrPublicApi.GetTradeHistoryRequest{
+		CurrencyPair: request.CurrencyPair,
+		Skip:         request.Skip,
+		Limit:        request.Limit,
+		StartTime:    request.StartTime,
+		EndTime:      request.EndTime,
+		BeforeId:     request.BeforeId,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return &GetPublicTradeHistoryResponse{
+		Trades: response.Trades,
 	}, nil
 }

@@ -57,3 +57,14 @@ type MarketSummary struct {
 	Created            string `json:"created"`
 	ChangeFromPrevious string `json:"changeFromPrevious"`
 }
+
+type Trade struct {
+	Price        string `json:"price"`
+	Quantity     string `json:"quantity"`
+	CurrencyPair string `json:"currencyPair"`
+	TradedAt     string `json:"tradedAt"`
+	TakerSide    string `json:"takerSide"`
+	SequenceId   int64  `json:"sequenceId"`
+	Id           string `json:"id"`
+	QuoteVolume  string `json:"quoteVolume"`
+}

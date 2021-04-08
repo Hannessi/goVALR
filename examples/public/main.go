@@ -11,7 +11,7 @@ const sleep_seconds = 7
 func main() {
 	client := goVALR.NewClient()
 
-	// credentials not needed for public endpoints
+	//credentials not needed for public endpoints
 
 	getPublicOrderBookResponse, err := client.GetPublicOrderBook(goVALR.GetPublicOrderBookRequest{
 		CurrencyPair: "BTCZAR",
@@ -91,6 +91,19 @@ func main() {
 
 	fmt.Println("GetMarketForCurrencyPairResponse")
 	fmt.Println("Response: ", getMarketForCurrencyPairResponse)
+	time.Sleep(sleep_seconds * time.Second)
+
+	getPublicTradeHistoryResponse, err := client.GetPublicTradeHistory(goVALR.GetPublicTradeHistoryRequest{
+		CurrencyPair: "BTCZAR",
+		Skip: 4,
+		Limit: 2,
+	})
+	if err != nil{
+		panic("Could not get public trade history: "+err.Error())
+	}
+
+	fmt.Println("GetPublicTradeHistoryResponse")
+	fmt.Println("Response: ", getPublicTradeHistoryResponse)
 	time.Sleep(sleep_seconds * time.Second)
 
 }
