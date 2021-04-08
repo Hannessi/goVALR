@@ -70,9 +70,7 @@ func (c *Client) GetPublicOrderBookNonAggregate(request GetPublicOrderBookNonAgg
 
 }
 
-type GetCurrenciesRequest struct {
-
-}
+type GetCurrenciesRequest struct{}
 
 type GetCurrenciesResponse struct {
 	Currencies []goVALRapi.Currency
