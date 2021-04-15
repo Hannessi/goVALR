@@ -68,3 +68,16 @@ type Trade struct {
 	Id           string `json:"id"`
 	QuoteVolume  string `json:"quoteVolume"`
 }
+
+type AccountBalance struct {
+	Currency  string `json:"currency"`
+	Available string `json:"available"`
+	Reserved  string `json:"reserved"`
+	Total     string `json:"total"`
+	UpdatedAt string `json:"updatedAt"`
+}
+
+type TransactionTypeWithDescription struct {
+	Type        TransactionType `json:"type"`
+	Description string          `json:"description"`
+}

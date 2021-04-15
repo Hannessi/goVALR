@@ -2,26 +2,30 @@ package goVALR
 
 import (
 	goVALRapi "github.com/hannessi/goVALR/api"
+	valrAccountApi "github.com/hannessi/goVALR/api/account"
 	valrPublicApi "github.com/hannessi/goVALR/api/public"
 	"time"
 )
 
 func NewClient() *Client {
 	return &Client{
-		publicApiRequester: valrPublicApi.NewHTTPRequester(),
+		publicApiRequester:  valrPublicApi.NewHTTPRequester(),
+		accountApiRequester: valrAccountApi.NewHTTPRequester(),
 	}
 }
 
 type Client struct {
-	apiKey             string
-	apiSecret          string
-	publicApiRequester valrPublicApi.Requester
+	apiKey              string
+	apiSecret           string
+	publicApiRequester  valrPublicApi.Requester
+	accountApiRequester valrAccountApi.Requester
 }
 
 // Setting authentication
 func (c *Client) SetCredentials(ApiKey, ApiSecret string) {
 	c.apiKey = ApiKey
 	c.apiSecret = ApiSecret
+	c.accountApiRequester.SetCredentials(ApiKey,ApiSecret)
 }
 
 // Public API
@@ -238,5 +242,76 @@ func (c *Client) GetValrStatus(request GetValrStatusRequest) (*GetValrStatusResp
 	}
 	return &GetValrStatusResponse{
 		Status: response.Status,
+	}, nil
+}
+
+// account api
+type GetBalancesRequest struct{}
+
+type GetBalancesResponse struct {
+	AccountBalances []goVALRapi.AccountBalance
+}
+
+func (c *Client) GetBalances(request GetBalancesRequest) (*GetBalancesResponse, error) {
+	response, err := c.accountApiRequester.GetBalances(valrAccountApi.GetBalancesRequest{})
+	if err != nil {
+		return nil, err
+	}
+	return &GetBalancesResponse{
+		AccountBalances: response.AccountBalances,
+	}, nil
+}
+
+type GetTransactionHistoryRequest struct {
+	Skip             int
+	Limit            int
+	TransactionTypes []goVALRapi.TransactionType
+	Currency         string
+	StartTime        time.Time
+	EndTime          time.Time
+	BeforeId         string
+}
+
+type GetTransactionHistoryResponse struct {
+	Transactions []goVALRapi.Transaction
+}
+
+func (c *Client) GetTransactionHistory(request GetTransactionHistoryRequest) (*GetTransactionHistoryResponse, error) {
+	response, err := c.accountApiRequester.GetTransactionHistory(valrAccountApi.GetTransactionHistoryRequest{
+		Skip:             request.Skip,
+		Limit:            request.Limit,
+		TransactionTypes: request.TransactionTypes,
+		Currency:         request.Currency,
+		StartTime:        request.StartTime,
+		EndTime:          request.EndTime,
+		BeforeId:         request.BeforeId,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return &GetTransactionHistoryResponse{
+		Transactions: response.Transactions,
+	}, nil
+}
+
+type GetTradeHistoryRequest struct {
+	CurrencyPair string
+	Limit        int
+}
+
+type GetTradeHistoryResponse struct {
+	Trades []goVALRapi.Trade
+}
+
+func (c *Client) GetTradeHistory(request GetTradeHistoryRequest) (*GetTradeHistoryResponse, error) {
+	response, err := c.accountApiRequester.GetTradeHistory(valrAccountApi.GetTradeHistoryRequest{
+		CurrencyPair: request.CurrencyPair,
+		Limit:        request.Limit,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return &GetTradeHistoryResponse{
+		Trades: response.Trades,
 	}, nil
 }
